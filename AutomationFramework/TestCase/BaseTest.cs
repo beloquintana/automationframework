@@ -8,6 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,23 +20,25 @@ namespace AutomationFramework.TestCase
         protected IWebDriver Driver;
         protected string Url = "http://verstandqa.com/ejercicios/";
 
-        protected ExtentReports Extent;
-        protected ExtentTest Test;
+        //protected ExtentReports Extent;
+        //protected ExtentTest Test;
 
         [OneTimeSetUp]
         protected void Setup()
-        {
-            Extent = new ExtentReports();
-            Extent.AttachReporter(ReportHandler.ExtentHtmlReporter(TestContext.CurrentContext.TestDirectory, "Report"));
+        {            
+            Console.WriteLine("OneTimeSetUp");
+            //Extent = new ExtentReports();
+            //Extent.AttachReporter(ReportHandler.ExtentHtmlReporter(TestContext.CurrentContext.TestDirectory, "Report"));
         }
 
         [SetUp]
         public void SetUpBase()
         {
+            Console.WriteLine("SetUpBase");
             Driver = new ChromeDriver();
             Driver.Navigate().GoToUrl(Url);
 
-            Test = Extent.CreateTest(TestContext.CurrentContext.Test.Name);
+            //Test = Extent.CreateTest(TestContext.CurrentContext.Test.Name);
         }
 
         [TearDown]
@@ -63,17 +66,18 @@ namespace AutomationFramework.TestCase
                     break;
             }
 
-            Test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
-            Extent.Flush();
-
+            //Test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
+            //Extent.Flush();
             if (Driver != null)
+            {
                 Driver.Quit();
+            }
         }
 
         [OneTimeTearDown]
         protected void TearDown()
         {
-            Extent.Flush();
+            //Extent.Flush();
         }
     }
 }

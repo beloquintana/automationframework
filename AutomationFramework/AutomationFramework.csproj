@@ -88,11 +88,11 @@
     <Compile Include="PO\EmployeePage.cs" />
     <Compile Include="PO\LoginPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SuiteSetUp.cs" />
     <Compile Include="TestCase\BaseTest.cs" />
     <Compile Include="TestCase\LoginTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="license" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

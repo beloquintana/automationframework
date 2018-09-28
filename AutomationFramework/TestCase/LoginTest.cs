@@ -19,9 +19,13 @@ namespace AutomationFramework.TestCase
 
             Assert.IsTrue(employeePage.FormIsPresent());
         }
+    }
 
+    [TestFixture]
+    public class LoginTest1 : BaseTest
+    {
         [Test]
-        public void EmptyPassword()
+        public void EmptyPassword1()
         {
             LoginPage loginPage = new LoginPage(Driver);
             EmployeePage employeePage = loginPage.LoginAs("admin", "");
