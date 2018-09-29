@@ -1,4 +1,6 @@
-﻿using AutomationFramework.Handler;
+﻿using Applitools.Selenium;
+using AutomationFramework.Handler;
+using AutomationFramework.Handler.ReportSeinglenton;
 using AventStack.ExtentReports;
 using AventStack.ExtentReports.Reporter;
 using AventStack.ExtentReports.Reporter.Configuration;
@@ -21,12 +23,13 @@ namespace AutomationFramework.TestCase
         protected string Url = "http://verstandqa.com/ejercicios/";
 
         //protected ExtentReports Extent;
-        //protected ExtentTest Test;
+        protected ExtentTest Test;
+        protected Eyes eyes;
 
         [OneTimeSetUp]
         protected void Setup()
-        {            
-            Console.WriteLine("OneTimeSetUp");
+        {
+            //ExtentTestManager.CreateParentTest(GetType().Name);
             //Extent = new ExtentReports();
             //Extent.AttachReporter(ReportHandler.ExtentHtmlReporter(TestContext.CurrentContext.TestDirectory, "Report"));
         }
@@ -34,9 +37,18 @@ namespace AutomationFramework.TestCase
         [SetUp]
         public void SetUpBase()
         {
-            Console.WriteLine("SetUpBase");
+            Test = ReportSingelnton.Instance.CreateTest(TestContext.CurrentContext.Test.Name);
+            //ExtentTestManager.CreateTest(TestContext.CurrentContext.Test.Name);
             Driver = new ChromeDriver();
-            Driver.Navigate().GoToUrl(Url);
+            eyes = new Eyes();
+            eyes.ApiKey = "12Fp101Ks104fGAtKeG7HEDM2NCRe9kuTsF3XPUw9Ib71vE110";
+                        
+            eyes.Open(Driver, "AutomationFramework", TestContext.CurrentContext.Test.Name);
+            Driver.Url = Url;
+
+
+
+            //Driver.Navigate().GoToUrl(Url);
 
             //Test = Extent.CreateTest(TestContext.CurrentContext.Test.Name);
         }
@@ -66,8 +78,24 @@ namespace AutomationFramework.TestCase
                     break;
             }
 
-            //Test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
+            Test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
+            var throwtTestCompleteException = false;
+            Applitools.TestResults result = eyes.Close(throwtTestCompleteException);
+            string url = result.Url;
+            if (result.IsNew)
+            {
+                Console.WriteLine("New Baseline Created: URL=" + url);
+            }
+            else if (result.IsPassed)
+            {
+                Console.WriteLine("All steps passed:     URL=" + url);
+            }
+            else
+            {
+                Console.WriteLine("Test Failed:          URL=" + url);
+            }
             //Extent.Flush();
+            //ExtentTestManager.GetTest().Log(logstatus, "Test ended with " + logstatus + stacktrace);
             if (Driver != null)
             {
                 Driver.Quit();
@@ -77,6 +105,7 @@ namespace AutomationFramework.TestCase
         [OneTimeTearDown]
         protected void TearDown()
         {
+            //ExtentManager.Instance.Flush();
             //Extent.Flush();
         }
     }

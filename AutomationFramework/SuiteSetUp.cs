@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using AutomationFramework.Handler.ReportSeinglenton;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,13 +15,14 @@ namespace AutomationFramework
         [OneTimeSetUp]
         public void RunBeforerAnyTests()
         {
-            File.AppendAllText(@"C:\temp\MyTest.txt", "OneTimeSetUp1");
+            //File.AppendAllText(@"C:\temp\MyTest.txt", "OneTimeSetUp1");
         }
 
         [OneTimeTearDown]
         public void RunAfterAnyTests()
         {
-            File.AppendAllText(@"C:\temp\MyTest.txt", "OneTimeTearDown1");
+            //File.AppendAllText(@"C:\temp\MyTest.txt", "OneTimeTearDown1");
+            ReportSingelnton.Instance.Flush();
         }
     }
 }
