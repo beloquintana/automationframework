@@ -1,2 +1,8 @@
 #Automation Framework
-#Report
+#C#
+#ExtentReports
+#NUnit
+#Selenium WebDriver
+#Applitools
+#Parallel Test Execution
+
