@@ -41,7 +41,7 @@ namespace AutomationFramework.TestCase
             //ExtentTestManager.CreateTest(TestContext.CurrentContext.Test.Name);
             Driver = new ChromeDriver();
             eyes = new Eyes();
-            eyes.ApiKey = "12Fp101Ks104fGAtKeG7HEDM2NCRe9kuTsF3XPUw9Ib71vE110";
+            eyes.ApiKey = "";
                         
             eyes.Open(Driver, "AutomationFramework", TestContext.CurrentContext.Test.Name);
             Driver.Url = Url;
