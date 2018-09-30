@@ -1,11 +1,6 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AutomationFramework.Handler
 {
@@ -13,10 +8,13 @@ namespace AutomationFramework.Handler
     {
         private static string ImagePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-        public static void TakeScreenShot(IWebDriver driver)
+        public static string TakeScreenShot(IWebDriver driver, string ImageName)
         {
+            string imagePath = ImagePath + "//"+ ImageName + ".png";
             Screenshot image = ((ITakesScreenshot)driver).GetScreenshot();
-            image.SaveAsFile(ImagePath + "//Images//IMG2.png", ScreenshotImageFormat.Png);
+            image.SaveAsFile(imagePath, ScreenshotImageFormat.Png);
+
+            return imagePath;
         }
     }
 }

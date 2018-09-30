@@ -1,23 +1,31 @@
 ﻿using AventStack.ExtentReports;
 using AventStack.ExtentReports.Reporter;
 using AventStack.ExtentReports.Reporter.Configuration;
+using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AutomationFramework.Handler
 {
-    public class ReportHandler
+    public sealed class ReportHandler
     {
-        public static ExtentHtmlReporter ExtentHtmlReporter(string reportPath, string fileName)
+        private static readonly Lazy<ExtentReports> Lazy = new Lazy<ExtentReports>(() => new ExtentReports());
+
+        public static ExtentReports Instance { get { return Lazy.Value; } }
+
+        static ReportHandler()
         {
-            ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(reportPath + "\\" + fileName + ".html");
-            htmlReporter.LoadConfig(reportPath + "\\" + "extent-config.xml");
-            return htmlReporter;
+            var htmlReporter = new ExtentHtmlReporter(TestContext.CurrentContext.TestDirectory + "\\Report.html");
+            htmlReporter.Configuration().ChartLocation = ChartLocation.Top;
+            htmlReporter.Configuration().ChartVisibilityOnOpen = true;
+            htmlReporter.Configuration().DocumentTitle = "Extent/NUnit Samples";
+            htmlReporter.Configuration().ReportName = "Extent/NUnit Samples";
+            htmlReporter.Configuration().Theme = Theme.Standard;
+
+            Instance.AttachReporter(htmlReporter);
+        }
+
+        private ReportHandler()
+        {
         }
     }
 }

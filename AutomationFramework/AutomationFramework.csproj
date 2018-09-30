@@ -72,6 +72,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
@@ -97,10 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handler\ExtentManager.cs" />
-    <Compile Include="Handler\ExtentTestManager.cs" />
     <Compile Include="Handler\ReportHandler.cs" />
-    <Compile Include="Handler\ReportSeinglenton\ReportSingelnton.cs" />
     <Compile Include="Handler\ScreenShotHandler.cs" />
     <Compile Include="Handler\WaitHandler.cs" />
     <Compile Include="PO\BasePage.cs" />
@@ -109,6 +107,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SuiteSetUp.cs" />
     <Compile Include="TestCase\BaseTest.cs" />
+    <Compile Include="TestCase\EmployeeTest.cs" />
     <Compile Include="TestCase\LoginTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +119,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

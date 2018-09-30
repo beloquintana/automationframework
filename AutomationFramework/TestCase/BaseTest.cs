@@ -1,60 +1,37 @@
 ﻿using Applitools.Selenium;
 using AutomationFramework.Handler;
-using AutomationFramework.Handler.ReportSeinglenton;
 using AventStack.ExtentReports;
-using AventStack.ExtentReports.Reporter;
-using AventStack.ExtentReports.Reporter.Configuration;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 
 namespace AutomationFramework.TestCase
 {
     public abstract class BaseTest
     {
         protected IWebDriver Driver;
-        protected string Url = "http://verstandqa.com/ejercicios/";
+        protected string Url = ConfigurationManager.AppSettings["Url"];
 
-        //protected ExtentReports Extent;
+        protected ExtentReports Extent;
         protected ExtentTest Test;
         protected Eyes eyes;
-
-        [OneTimeSetUp]
-        protected void Setup()
-        {
-            //ExtentTestManager.CreateParentTest(GetType().Name);
-            //Extent = new ExtentReports();
-            //Extent.AttachReporter(ReportHandler.ExtentHtmlReporter(TestContext.CurrentContext.TestDirectory, "Report"));
-        }
-
+        
         [SetUp]
-        public void SetUpBase()
+        public void BeforeBaseTest()
         {
-            Test = ReportSingelnton.Instance.CreateTest(TestContext.CurrentContext.Test.Name);
-            //ExtentTestManager.CreateTest(TestContext.CurrentContext.Test.Name);
+            Test = ReportHandler.Instance.CreateTest(TestContext.CurrentContext.Test.Name);
             Driver = new ChromeDriver();
             eyes = new Eyes();
-            eyes.ApiKey = "";
+            eyes.ApiKey = ConfigurationManager.AppSettings["API_Key"];
                         
             eyes.Open(Driver, "AutomationFramework", TestContext.CurrentContext.Test.Name);
             Driver.Url = Url;
-
-
-
-            //Driver.Navigate().GoToUrl(Url);
-
-            //Test = Extent.CreateTest(TestContext.CurrentContext.Test.Name);
         }
 
         [TearDown]
-        public void TearDownBase()
+        public void AfterBaseTest()
         {
             var status = TestContext.CurrentContext.Result.Outcome.Status;
             var stacktrace = string.IsNullOrEmpty(TestContext.CurrentContext.Result.StackTrace)
@@ -66,6 +43,7 @@ namespace AutomationFramework.TestCase
             {
                 case TestStatus.Failed:
                     logstatus = Status.Fail;
+                    Test.AddScreenCaptureFromPath(ScreenShotHandler.TakeScreenShot(Driver, TestContext.CurrentContext.Test.Name));
                     break;
                 case TestStatus.Inconclusive:
                     logstatus = Status.Warning;
@@ -79,34 +57,25 @@ namespace AutomationFramework.TestCase
             }
 
             Test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
-            var throwtTestCompleteException = false;
-            Applitools.TestResults result = eyes.Close(throwtTestCompleteException);
-            string url = result.Url;
-            if (result.IsNew)
-            {
-                Console.WriteLine("New Baseline Created: URL=" + url);
-            }
-            else if (result.IsPassed)
-            {
-                Console.WriteLine("All steps passed:     URL=" + url);
-            }
-            else
-            {
-                Console.WriteLine("Test Failed:          URL=" + url);
-            }
-            //Extent.Flush();
-            //ExtentTestManager.GetTest().Log(logstatus, "Test ended with " + logstatus + stacktrace);
+            LogApplitools();
+
             if (Driver != null)
             {
                 Driver.Quit();
             }
         }
 
-        [OneTimeTearDown]
-        protected void TearDown()
+        private void LogApplitools()
         {
-            //ExtentManager.Instance.Flush();
-            //Extent.Flush();
+            var throwtTestCompleteException = false;
+            Applitools.TestResults result = eyes.Close(throwtTestCompleteException);
+            string url = result.Url;
+            if (result.IsNew)
+                Test.Log(Status.Info, "New Baseline Created: URL=" + url);
+            else if (result.IsPassed)
+                Test.Log(Status.Info, "Visual check Passed: URL=" + url);
+            else
+                Test.Log(Status.Info, "Visual check Failed: URL=" + url);
         }
     }
 }
