@@ -15,12 +15,7 @@ namespace AutomationFramework.Handler
         static ReportHandler()
         {
             var htmlReporter = new ExtentHtmlReporter(TestContext.CurrentContext.TestDirectory + "\\Report.html");
-            htmlReporter.Configuration().ChartLocation = ChartLocation.Top;
-            htmlReporter.Configuration().ChartVisibilityOnOpen = true;
-            htmlReporter.Configuration().DocumentTitle = "Extent/NUnit Samples";
-            htmlReporter.Configuration().ReportName = "Extent/NUnit Samples";
-            htmlReporter.Configuration().Theme = Theme.Standard;
-
+            htmlReporter.LoadConfig(TestContext.CurrentContext.TestDirectory + "\\extent-config.xml");
             Instance.AttachReporter(htmlReporter);
         }
 

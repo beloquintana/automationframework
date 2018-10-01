@@ -5,6 +5,7 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System;
 using System.Configuration;
 
 namespace AutomationFramework.TestCase
@@ -33,36 +34,45 @@ namespace AutomationFramework.TestCase
         [TearDown]
         public void AfterBaseTest()
         {
-            var status = TestContext.CurrentContext.Result.Outcome.Status;
-            var stacktrace = string.IsNullOrEmpty(TestContext.CurrentContext.Result.StackTrace)
-                    ? ""
-                    : string.Format("{0}", TestContext.CurrentContext.Result.StackTrace);
-            Status logstatus;
-
-            switch (status)
+            try
             {
-                case TestStatus.Failed:
-                    logstatus = Status.Fail;
-                    Test.AddScreenCaptureFromPath(ScreenShotHandler.TakeScreenShot(Driver, TestContext.CurrentContext.Test.Name));
-                    break;
-                case TestStatus.Inconclusive:
-                    logstatus = Status.Warning;
-                    break;
-                case TestStatus.Skipped:
-                    logstatus = Status.Skip;
-                    break;
-                default:
-                    logstatus = Status.Pass;
-                    break;
+                var status = TestContext.CurrentContext.Result.Outcome.Status;
+                var stacktrace = string.IsNullOrEmpty(TestContext.CurrentContext.Result.StackTrace)
+                        ? ""
+                        : string.Format("{0}", TestContext.CurrentContext.Result.StackTrace);
+                Status logstatus;
+
+                switch (status)
+                {
+                    case TestStatus.Failed:
+                        logstatus = Status.Fail;
+                        Test.AddScreenCaptureFromPath(ScreenShotHandler.TakeScreenShot(Driver, TestContext.CurrentContext.Test.Name));
+                        break;
+                    case TestStatus.Inconclusive:
+                        logstatus = Status.Warning;
+                        break;
+                    case TestStatus.Skipped:
+                        logstatus = Status.Skip;
+                        break;
+                    default:
+                        logstatus = Status.Pass;
+                        break;
+                }
+
+                Test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
+                LogApplitools();
             }
-
-            Test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
-            LogApplitools();
-
-            if (Driver != null)
+            catch (Exception e)
             {
-                Driver.Quit();
+                Test.Log(Status.Error, "Exception " + e.Message);
             }
+            finally
+            {
+                if (Driver != null)
+                {
+                    Driver.Quit();
+                }
+            }            
         }
 
         private void LogApplitools()
