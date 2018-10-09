@@ -46,7 +46,7 @@ namespace AutomationFramework.TestCase
                 {
                     case TestStatus.Failed:
                         logstatus = Status.Fail;
-                        Test.AddScreenCaptureFromPath(ScreenShotHandler.TakeScreenShot(Driver, TestContext.CurrentContext.Test.Name));
+                        Test.AddScreenCaptureFromPath(ScreenShotHandler.TakeScreenShot(Driver));
                         break;
                     case TestStatus.Inconclusive:
                         logstatus = Status.Warning;
@@ -59,8 +59,7 @@ namespace AutomationFramework.TestCase
                         break;
                 }
 
-                Test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
-                LogApplitools();
+                Test.Log(logstatus, "Test ended with " + logstatus + stacktrace);                
             }
             catch (Exception e)
             {
@@ -68,6 +67,7 @@ namespace AutomationFramework.TestCase
             }
             finally
             {
+                LogApplitools();
                 if (Driver != null)
                 {
                     Driver.Quit();
