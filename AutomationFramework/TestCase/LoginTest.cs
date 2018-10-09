@@ -1,4 +1,5 @@
 ﻿using AutomationFramework.PO;
+using AventStack.ExtentReports;
 using NUnit.Framework;
 
 namespace AutomationFramework.TestCase
@@ -9,7 +10,7 @@ namespace AutomationFramework.TestCase
         [Test]
         public void SuccessfulLogin()
         {
-            Test.Log(AventStack.ExtentReports.Status.Info, "SuccessfulLogin");
+            Test.Log(Status.Info, "SuccessfulLogin");
             eyes.CheckWindow("Login Page");
 
             LoginPage loginPage = new LoginPage(Driver);

@@ -1,4 +1,5 @@
 ﻿using AutomationFramework.PO;
+using AventStack.ExtentReports;
 using NUnit.Framework;
 
 namespace AutomationFramework.TestCase
@@ -19,7 +20,7 @@ namespace AutomationFramework.TestCase
         [TestCase("lis", "lis@gmail.com", "Cuba", "5389552")]
         public void AddEmployee(string name, string email, string address, string phone)
         {
-            Test.Log(AventStack.ExtentReports.Status.Info, "AddEmployee");
+            Test.Log(Status.Info, "AddEmployee");
             eyes.CheckWindow("Add Employee Page");
             employeePage.AddEmployee(name, email, address, phone);
 
