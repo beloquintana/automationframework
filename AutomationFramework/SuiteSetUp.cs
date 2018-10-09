@@ -7,13 +7,13 @@ namespace AutomationFramework
     public class SuiteSetUp
     {
         [OneTimeSetUp]
-        public void RunBeforerAnyTests()
+        public void RunBeforeAllTests()
         {
 
         }
 
         [OneTimeTearDown]
-        public void RunAfterAnyTests()
+        public void RunAfterAllTests()
         {            
             ReportHandler.Instance.Flush();
         }
