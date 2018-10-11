@@ -15,7 +15,6 @@ namespace AutomationFramework.TestCase
         protected IWebDriver Driver;
         protected string Url = ConfigurationManager.AppSettings["Url"];
 
-        protected ExtentReports Extent;
         protected ExtentTest Test;
         protected Eyes eyes;
         
