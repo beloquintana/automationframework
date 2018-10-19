@@ -1,6 +1,6 @@
 # Proyecto de automatización de pruebas con Selenium en C#
 
-Framework de pruebas automatizado con las funcionalidades bases para comenzar con la automatización de pruebas en un proyecto.
+Framework de pruebas automatizado con las funcionalidades principales para utilizar como base de un Proyecto de pruebas automatizadas.
 
 ## Funcionalidades:
 * Automatización de pruebas
