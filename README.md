@@ -14,3 +14,13 @@ Framework de pruebas automatizado con las funcionalidades bases para comenzar co
 * ExtentReports
 * NUnit
 * Applitools
+
+## Instalación:
+Requiere de la Key de Applitools. Ir a https://applitools.com/ y crearse una cuenta. La Key que genera Applitools por usuario es necesaria colocarla en el archivo de configuración: app.config (automationframework/AutomationFramework/app.config)
+Colocarla en el tag:
+```xml
+<myxml>
+   <add key="API_Key" value="" />
+</myxml>
+```
+
