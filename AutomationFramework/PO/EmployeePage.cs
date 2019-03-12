@@ -44,9 +44,8 @@ namespace AutomationFramework.PO
             }
             catch (NoAlertPresentException)
             {
+                return false;
             }
-
-            return false;
         }
 
     }
