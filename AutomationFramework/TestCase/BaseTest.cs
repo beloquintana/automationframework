@@ -28,6 +28,7 @@ namespace AutomationFramework.TestCase
                         
             eyes.Open(Driver, "AutomationFramework", TestContext.CurrentContext.Test.Name);
             Driver.Url = Url;
+            Driver.Manage().Window.Maximize();
         }
 
         [TearDown]
@@ -76,15 +77,18 @@ namespace AutomationFramework.TestCase
 
         private void LogApplitools()
         {
-            var throwtTestCompleteException = false;
-            Applitools.TestResults result = eyes.Close(throwtTestCompleteException);
-            string url = result.Url;
-            if (result.IsNew)
-                Test.Log(Status.Info, "New Baseline Created: URL=" + url);
-            else if (result.IsPassed)
-                Test.Log(Status.Info, "Visual check Passed: URL=" + url);
-            else
-                Test.Log(Status.Info, "Visual check Failed: URL=" + url);
+            if (eyes != null && Test != null)
+            {
+                var throwtTestCompleteException = false;
+                Applitools.TestResults result = eyes.Close(throwtTestCompleteException);
+                string url = result.Url;
+                if (result.IsNew)
+                    Test.Log(Status.Info, "New Baseline Created: URL=" + url);
+                else if (result.IsPassed)
+                    Test.Log(Status.Info, "Visual check Passed: URL=" + url);
+                else
+                    Test.Log(Status.Info, "Visual check Failed: URL=" + url);
+            }            
         }
     }
 }
